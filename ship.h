@@ -1,60 +1,68 @@
 #ifndef ship_h
 #define ship_h
 #include <iostream>
+#include <string>
 using namespace std;
 
-class ship
+class Ship
 {
-};
+protected:
+    // check the ship name
+    string name;
 
-class Zapezoids : public ship
-{
-};
+    // hit points
+    int hitPoints;    // current hp
+    int maxHitPoints; // max hp(not change during the game)
 
-class Rogatuskan : public ship
-{
-private:
-    float hitPoints;
-    int pilot;
-    int gunner;
+    // crew members
+    int pilotCount;
+    int gunnerCount;
+    int torpedoHandlersCount;
+
+    // weapons
     int lightCannons;
-    int chanceToBeHitByLightCannons;
-    int chanceToBeHitByTorpedoes;
-    int torpedoHandlers;
     int torpedoes;
+
+    // probability to be hit
+    int chanceHitByCannon;
+    int chanceHitByTorpedo;
+
+public:
+    string getName()
+    {
+        return name;
+    }
+
+    // action function
+    void takeDamage(int damage)
+    {
+        hitPoints -= damage;
+        if (hitPoints < 0)
+        {
+            hitPoints = 0;
+        }
+    }
+
+    // check if the ship is destroyed
+    bool isDestroyed()
+    {
+        return hitPoints <= 0;
+    }
+};
+
+class Rogatuskan : public Ship
+{
 };
 
 class Jager : public Rogatuskan
 {
-private:
-    float hitPoints;
-    int pilot;
-    int lightCannons;
-    int chanceToBeHitByLightCannons;
-    int chanceToBeHitByTorpedoes;
 };
 
 class Kreuzer : public Rogatuskan
 {
-private:
-    float hitPoints;
-    int pilot;
-    int gunner;
-    int lightCannons;
-    int chanceToBeHitByLightCannons;
-    int chanceToBeHitByTorpedoes;
 };
 
 class Fregatte : public Rogatuskan
 {
-private:
-    float hitPoints;
-    int pilot;
-    int gunner;
-    int lightCannons;
-    int chanceToBeHitByLightCannons;
-    int chanceToBeHitByTorpedoes;
-    int torpedoHandlers;
-    int torpedoes;
 };
 #endif
