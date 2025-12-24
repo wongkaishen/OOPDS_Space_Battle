@@ -19,13 +19,17 @@ protected:
     int gunnerCount;
     int torpedoHandlersCount;
 
-    // weapons
-    int lightCannons;
-    int torpedoes;
+    // weapons number
+    int lightCannonsCount;
+    int torpedoesCount;
 
     // probability to be hit
-    int chanceHitByCannon;
+    int chanceHitByLightCannon;
     int chanceHitByTorpedo;
+
+    // damage amount(power)
+    int lightCannonPower;
+    int torpedoPower;
 
 public:
     string getName()
