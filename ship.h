@@ -14,7 +14,7 @@ protected:
     int hitPoints;    // current hp
     int maxHitPoints; // max hp(not change during the game)
 
-    // crew members
+    // number crew members
     int pilotCount;
     int gunnerCount;
     int torpedoHandlersCount;
