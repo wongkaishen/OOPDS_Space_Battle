@@ -1,0 +1,42 @@
+Loading data files...
+Fleets loaded from zShip.csv
+Zapezoids: 1 ships.
+Rogoatuskans: 0 ships.
+Loading data files...
+Fleets loaded from rShip.csv
+Zapezoids: 1 ships.
+Rogoatuskans: 1 ships.
+
+========================================
+       FLEET CONFIGURATION REPORT       
+========================================
+
+--- ZAPEZOID FLEET ---
+[Z-S-001] Tacitus              (Corazzata)
+      HP: 1031/1031
+      Pilots (1/2): John Doe
+      Gunners (1/10): Ddsa
+      Torp Handlers (0/4): 
+--------------------------------------------------
+--- ROGOATUSKAN FLEET ---
+[R-S-001] Sagittae              (Jager)
+      HP: 112/112
+      Pilots (1/1): Jaden Smith
+      Gunners (1/1): Jane Smith
+--------------------------------------------------
+
+[Unassigned ROGOATUSKAN Crew]
+ - (Functionality to track unassigned crew pending)
+========================================
+           BATTLE COMMENCING            
+========================================
+
+--- Turn 1 ---
+[Z-S-001] Tacitus (1031/1031) fires at [R-S-001] Sagittae (112/112) for 164 damage.
+[R-S-001] Sagittae (112/112) fires at [Z-S-001] Tacitus (1031/1031) for 101 damage.
+
+Resolving Damage...
+[R-S-001] Sagittae has been destroyed!
+
+--- Battle Over ---
+Zapezoids Win!
