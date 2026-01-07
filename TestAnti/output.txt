@@ -1,0 +1,24 @@
+Loading data files...
+Fleets loaded from zShip.csv
+Zapezoids: 0 ships.
+Rogoatuskans: 0 ships.
+Loading data files...
+Fleets loaded from rShip.csv
+Zapezoids: 0 ships.
+Rogoatuskans: 0 ships.
+
+========================================
+       FLEET CONFIGURATION REPORT       
+========================================
+
+--- ZAPEZOID FLEET ---
+--- ROGOATUSKAN FLEET ---
+
+[Unassigned ROGOATUSKAN Crew]
+ - (Functionality to track unassigned crew pending)
+========================================
+           BATTLE COMMENCING            
+========================================
+
+--- Battle Over ---
+Rogoatuskans Win!

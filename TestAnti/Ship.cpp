@@ -4,23 +4,22 @@ Ship::Ship(string n, Faction f, int h, int p, int g, int th, int lc_pow,
            int t_pow, int lc_count, int t_count)
     : name(n), faction(f), maxHp(h), hp(h), pilots(p), gunners(g),
       torpedoHandlers(th), lightCannons(lc_pow), torpedoes(t_pow),
-      lightCannonCount(lc_count), torpedoCount(t_count), assignedPilots(0),
-      assignedGunners(0), assignedTorpedoHandlers(0) {}
+      lightCannonCount(lc_count), torpedoCount(t_count) {}
 
 int Ship::calculateTotalFirePower() const {
-  if (pilots > 0 && assignedPilots == 0)
+  if (pilots > 0 && assignedPilots.empty())
     return 0; // No power if no pilot
 
   double cannonEfficiency = 1.0;
   if (gunners > 0) {
-    cannonEfficiency = (double)assignedGunners / gunners;
+    cannonEfficiency = (double)assignedGunners.size() / gunners;
     if (cannonEfficiency > 1.0)
       cannonEfficiency = 1.0;
   }
 
   double torpedoEfficiency = 1.0;
   if (torpedoHandlers > 0) {
-    torpedoEfficiency = (double)assignedTorpedoHandlers / torpedoHandlers;
+    torpedoEfficiency = (double)assignedTorpedoHandlers.size() / torpedoHandlers;
     if (torpedoEfficiency > 1.0)
       torpedoEfficiency = 1.0;
   }

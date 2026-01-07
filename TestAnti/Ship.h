@@ -24,10 +24,12 @@ protected:
   int torpedoCount;
 
   // Assigned Crew
-  int assignedPilots;
-  int assignedGunners;
-  int assignedTorpedoHandlers;
+  vector<string> assignedPilots;
+  vector<string> assignedGunners;
+  vector<string> assignedTorpedoHandlers;
 
+  friend class BattleEngine; // To allow setting name from CSV logic
+  
 public:
   Ship(string n, Faction f, int h, int p, int g, int th, int lc_pow, int t_pow,
        int lc_count, int t_count);
@@ -35,16 +37,22 @@ public:
 
   // Getters
   string getName() const { return name; }
+  virtual string getType() const { return "Ship"; }
   Faction getFaction() const { return faction; }
   int getHP() const { return hp; }
+  int getMaxHP() const { return maxHp; }
   bool isAlive() const { return hp > 0; }
+  const vector<string>& getAssignedPilots() const { return assignedPilots; }
+  const vector<string>& getAssignedGunners() const { return assignedGunners; }
+  const vector<string>& getAssignedTorpedoHandlers() const { return assignedTorpedoHandlers; }
+
 
   // Actions
   virtual int calculateTotalFirePower() const;
   void takeDamage(int damage);
-  void assignPilot() { assignedPilots++; }
-  void assignGunner() { assignedGunners++; }
-  void assignTorpedoHandler() { assignedTorpedoHandlers++; }
+  void assignPilot(string name) { assignedPilots.push_back(name); }
+  void assignGunner(string name) { assignedGunners.push_back(name); }
+  void assignTorpedoHandler(string name) { assignedTorpedoHandlers.push_back(name); }
 
   // Requirements
   int getRequiredPilots() const { return pilots; }

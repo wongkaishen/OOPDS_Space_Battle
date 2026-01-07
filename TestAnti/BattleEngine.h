@@ -24,7 +24,8 @@ public:
 
   void init();
   void loadFleetsFromCSV(std::string filename);
-  void loadPersonnelFromCSV(std::string filename);
+  void loadPersonnelFromCSV(std::string filename, Faction faction);
+  void printFleetReport() const;
   void runBattle();
   void processTurn();
 };
