@@ -253,6 +253,8 @@ bool BattleEngine::isFleetDefeated(const vector<Ship *> &fleet) const {
   return true;
 }
 
+
+
 Ship *BattleEngine::getRandomTarget(const vector<Ship *> &fleet) {
   vector<Ship *> livingShips;
   for (Ship *s : fleet) {
@@ -277,12 +279,31 @@ void BattleEngine::processTurn() {
       continue;
     Ship *target = getRandomTarget(rogoatuskanFleet);
     if (target) {
-      int damage = shooter->calculateTotalFirePower();
-      // Simple hit chance logic could go here (e.g., 50% chance to hit)
-      // For this basic version, we assume 100% accuracy or simplified model
-      pendingDamage[target] += damage;
-      cout << *shooter << " fires at " << *target << " for " << damage
-           << " damage." << endl;
+      // Light Cannon Attack
+      int lcDamage = shooter->getLightCannonDamage();
+      if (lcDamage > 0) {
+        double hitRoll = (rand() % 10000) / 100.0;
+        if (hitRoll < target->getLightCannonHitChance()) {
+            pendingDamage[target] += lcDamage;
+            cout << *shooter << " fires Light Cannons at " << *target << " for " << lcDamage
+                 << " damage. [HIT] (Roll: " << hitRoll << " vs " << target->getLightCannonHitChance() << "%)" << endl;
+        } else {
+             cout << *shooter << " fires Light Cannons at " << *target << " but MISSES! (Roll: " << hitRoll << " vs " << target->getLightCannonHitChance() << "%)" << endl;
+        }
+      }
+
+      // Torpedo Attack
+      int tDamage = shooter->getTorpedoDamage();
+      if (tDamage > 0) {
+        double hitRoll = (rand() % 10000) / 100.0;
+        if (hitRoll < target->getTorpedoHitChance()) {
+            pendingDamage[target] += tDamage;
+            cout << *shooter << " fires Torpedoes at " << *target << " for " << tDamage
+                 << " damage. [HIT] (Roll: " << hitRoll << " vs " << target->getTorpedoHitChance() << "%)" << endl;
+        } else {
+             cout << *shooter << " fires Torpedoes at " << *target << " but MISSES! (Roll: " << hitRoll << " vs " << target->getTorpedoHitChance() << "%)" << endl;
+        }
+      }
     }
   }
 
@@ -292,19 +313,43 @@ void BattleEngine::processTurn() {
       continue;
     Ship *target = getRandomTarget(zapezoidFleet);
     if (target) {
-      int damage = shooter->calculateTotalFirePower();
-      pendingDamage[target] += damage;
-      cout << *shooter << " fires at " << *target << " for " << damage
-           << " damage." << endl;
+      // Light Cannon Attack
+      int lcDamage = shooter->getLightCannonDamage();
+      if (lcDamage > 0) {
+        double hitRoll = (rand() % 10000) / 100.0;
+        if (hitRoll < target->getLightCannonHitChance()) {
+            pendingDamage[target] += lcDamage;
+            cout << *shooter << " fires Light Cannons at " << *target << " for " << lcDamage
+                 << " damage. [HIT] (Roll: " << hitRoll << " vs " << target->getLightCannonHitChance() << "%)" << endl;
+        } else {
+             cout << *shooter << " fires Light Cannons at " << *target << " but MISSES! (Roll: " << hitRoll << " vs " << target->getLightCannonHitChance() << "%)" << endl;
+        }
+      }
+
+      // Torpedo Attack
+      int tDamage = shooter->getTorpedoDamage();
+      if (tDamage > 0) {
+        double hitRoll = (rand() % 10000) / 100.0;
+        if (hitRoll < target->getTorpedoHitChance()) {
+            pendingDamage[target] += tDamage;
+            cout << *shooter << " fires Torpedoes at " << *target << " for " << tDamage
+                 << " damage. [HIT] (Roll: " << hitRoll << " vs " << target->getTorpedoHitChance() << "%)" << endl;
+        } else {
+             cout << *shooter << " fires Torpedoes at " << *target << " but MISSES! (Roll: " << hitRoll << " vs " << target->getTorpedoHitChance() << "%)" << endl;
+        }
+      }
     }
   }
-
   // Apply Damage
-  cout << "\nResolving Damage..." << endl;
-  for (auto const &[ship, damage] : pendingDamage) {
-    ship->takeDamage(damage);
-    if (!ship->isAlive()) {
-      cout << ship->getName() << " has been destroyed!" << endl;
+  if (pendingDamage.empty()) {
+    cout << "\nAll misses!" << endl;
+  } else {
+    cout << "\nResolving Damage..." << endl;
+    for (auto const &[ship, damage] : pendingDamage) {
+      ship->takeDamage(damage);
+      if (!ship->isAlive()) {
+        cout << ship->getName() << " has been destroyed!" << endl;
+      }
     }
   }
 }

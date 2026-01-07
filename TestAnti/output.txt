@@ -14,15 +14,16 @@ Rogoatuskans: 1 ships.
 --- ZAPEZOID FLEET ---
 [Z-S-001] Tacitus              (Corazzata)
       HP: 1031/1031
-      Pilots (1/2): John Doe
+      Pilots (2/2): John Doe, michael
       Gunners (1/10): Ddsa
       Torp Handlers (0/4): 
 --------------------------------------------------
 --- ROGOATUSKAN FLEET ---
-[R-S-001] Sagittae              (Jager)
-      HP: 112/112
-      Pilots (1/1): Jaden Smith
-      Gunners (1/1): Jane Smith
+[R-S-001] Sagittae              (Fregatte)
+      HP: 1143/1143
+      Pilots (1/2): Lanjiao besar
+      Gunners (1/11): Jane Smith
+      Torp Handlers (0/5): 
 --------------------------------------------------
 
 [Unassigned ROGOATUSKAN Crew]
@@ -32,8 +33,62 @@ Rogoatuskans: 1 ships.
 ========================================
 
 --- Turn 1 ---
-[Z-S-001] Tacitus (1031/1031) fires at [R-S-001] Sagittae (112/112) for 164 damage.
-[R-S-001] Sagittae (112/112) fires at [Z-S-001] Tacitus (1031/1031) for 101 damage.
+[Z-S-001] Tacitus (1031/1031) fires Light Cannons at [R-S-001] Sagittae (1143/1143) for 164 damage. [HIT] (Roll: 25.71 vs 75%)
+[R-S-001] Sagittae (1143/1143) fires Light Cannons at [Z-S-001] Tacitus (1031/1031) for 159 damage. [HIT] (Roll: 16.33 vs 50%)
+
+Resolving Damage...
+
+--- Turn 2 ---
+[Z-S-001] Tacitus (872/1031) fires Light Cannons at [R-S-001] Sagittae (979/1143) for 164 damage. [HIT] (Roll: 46.21 vs 75%)
+[R-S-001] Sagittae (979/1143) fires Light Cannons at [Z-S-001] Tacitus (872/1031) for 159 damage. [HIT] (Roll: 43.93 vs 50%)
+
+Resolving Damage...
+
+--- Turn 3 ---
+[Z-S-001] Tacitus (713/1031) fires Light Cannons at [R-S-001] Sagittae (815/1143) but MISSES! (Roll: 77.84 vs 75%)
+[R-S-001] Sagittae (815/1143) fires Light Cannons at [Z-S-001] Tacitus (713/1031) but MISSES! (Roll: 80.51 vs 50%)
+
+All misses!
+
+--- Turn 4 ---
+[Z-S-001] Tacitus (713/1031) fires Light Cannons at [R-S-001] Sagittae (815/1143) but MISSES! (Roll: 81.69 vs 75%)
+[R-S-001] Sagittae (815/1143) fires Light Cannons at [Z-S-001] Tacitus (713/1031) but MISSES! (Roll: 61.43 vs 50%)
+
+All misses!
+
+--- Turn 5 ---
+[Z-S-001] Tacitus (713/1031) fires Light Cannons at [R-S-001] Sagittae (815/1143) for 164 damage. [HIT] (Roll: 22.52 vs 75%)
+[R-S-001] Sagittae (815/1143) fires Light Cannons at [Z-S-001] Tacitus (713/1031) but MISSES! (Roll: 68.65 vs 50%)
+
+Resolving Damage...
+
+--- Turn 6 ---
+[Z-S-001] Tacitus (713/1031) fires Light Cannons at [R-S-001] Sagittae (651/1143) for 164 damage. [HIT] (Roll: 9.99 vs 75%)
+[R-S-001] Sagittae (651/1143) fires Light Cannons at [Z-S-001] Tacitus (713/1031) but MISSES! (Roll: 59.58 vs 50%)
+
+Resolving Damage...
+
+--- Turn 7 ---
+[Z-S-001] Tacitus (713/1031) fires Light Cannons at [R-S-001] Sagittae (487/1143) but MISSES! (Roll: 80.39 vs 75%)
+[R-S-001] Sagittae (487/1143) fires Light Cannons at [Z-S-001] Tacitus (713/1031) for 159 damage. [HIT] (Roll: 21.23 vs 50%)
+
+Resolving Damage...
+
+--- Turn 8 ---
+[Z-S-001] Tacitus (554/1031) fires Light Cannons at [R-S-001] Sagittae (487/1143) for 164 damage. [HIT] (Roll: 48.64 vs 75%)
+[R-S-001] Sagittae (487/1143) fires Light Cannons at [Z-S-001] Tacitus (554/1031) but MISSES! (Roll: 98.19 vs 50%)
+
+Resolving Damage...
+
+--- Turn 9 ---
+[Z-S-001] Tacitus (554/1031) fires Light Cannons at [R-S-001] Sagittae (323/1143) for 164 damage. [HIT] (Roll: 59.51 vs 75%)
+[R-S-001] Sagittae (323/1143) fires Light Cannons at [Z-S-001] Tacitus (554/1031) for 159 damage. [HIT] (Roll: 19.59 vs 50%)
+
+Resolving Damage...
+
+--- Turn 10 ---
+[Z-S-001] Tacitus (395/1031) fires Light Cannons at [R-S-001] Sagittae (159/1143) for 164 damage. [HIT] (Roll: 57.46 vs 75%)
+[R-S-001] Sagittae (159/1143) fires Light Cannons at [Z-S-001] Tacitus (395/1031) for 159 damage. [HIT] (Roll: 44.11 vs 50%)
 
 Resolving Damage...
 [R-S-001] Sagittae has been destroyed!

@@ -23,6 +23,10 @@ protected:
   int lightCannonCount;
   int torpedoCount;
 
+  // Hit Chances
+  int lightCannonHitChance;
+  int torpedoHitChance;
+
   // Assigned Crew
   vector<string> assignedPilots;
   vector<string> assignedGunners;
@@ -32,7 +36,7 @@ protected:
   
 public:
   Ship(string n, Faction f, int h, int p, int g, int th, int lc_pow, int t_pow,
-       int lc_count, int t_count);
+       int lc_count, int t_count, int lc_hit_chance, int t_hit_chance);
   virtual ~Ship() {}
 
   // Getters
@@ -46,9 +50,15 @@ public:
   const vector<string>& getAssignedGunners() const { return assignedGunners; }
   const vector<string>& getAssignedTorpedoHandlers() const { return assignedTorpedoHandlers; }
 
+  // New Hit Chance Getters
+  // New Hit Chance Getters
+  double getLightCannonHitChance() const;
+  double getTorpedoHitChance() const;
 
   // Actions
   virtual int calculateTotalFirePower() const;
+  int getLightCannonDamage() const;
+  int getTorpedoDamage() const;
   void takeDamage(int damage);
   void assignPilot(string name) { assignedPilots.push_back(name); }
   void assignGunner(string name) { assignedGunners.push_back(name); }

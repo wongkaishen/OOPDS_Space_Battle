@@ -1,14 +1,15 @@
 #include "Ship.h"
 
 Ship::Ship(string n, Faction f, int h, int p, int g, int th, int lc_pow,
-           int t_pow, int lc_count, int t_count)
+           int t_pow, int lc_count, int t_count, int lc_hit_chance, int t_hit_chance)
     : name(n), faction(f), maxHp(h), hp(h), pilots(p), gunners(g),
       torpedoHandlers(th), lightCannons(lc_pow), torpedoes(t_pow),
-      lightCannonCount(lc_count), torpedoCount(t_count) {}
+      lightCannonCount(lc_count), torpedoCount(t_count), 
+      lightCannonHitChance(lc_hit_chance), torpedoHitChance(t_hit_chance) {}
 
-int Ship::calculateTotalFirePower() const {
+int Ship::getLightCannonDamage() const {
   if (pilots > 0 && assignedPilots.empty())
-    return 0; // No power if no pilot
+    return 0; // No power if no pilot or needed
 
   double cannonEfficiency = 1.0;
   if (gunners > 0) {
@@ -16,6 +17,12 @@ int Ship::calculateTotalFirePower() const {
     if (cannonEfficiency > 1.0)
       cannonEfficiency = 1.0;
   }
+  return (lightCannons * lightCannonCount) * cannonEfficiency;
+}
+
+int Ship::getTorpedoDamage() const {
+  if (pilots > 0 && assignedPilots.empty())
+    return 0; 
 
   double torpedoEfficiency = 1.0;
   if (torpedoHandlers > 0) {
@@ -23,14 +30,29 @@ int Ship::calculateTotalFirePower() const {
     if (torpedoEfficiency > 1.0)
       torpedoEfficiency = 1.0;
   }
+  return (torpedoes * torpedoCount) * torpedoEfficiency;
+}
 
-  int totalPower = 0;
+int Ship::calculateTotalFirePower() const {
+  return getLightCannonDamage() + getTorpedoDamage();
+}
 
-  // Calculate Cannon Power
-  totalPower += (lightCannons * lightCannonCount) * cannonEfficiency;
-  totalPower += (torpedoes * torpedoCount) * torpedoEfficiency;
+double Ship::getLightCannonHitChance() const {
+  double chance = (double)lightCannonHitChance;
+  // Penalty: If 2 pilots required but only 1 assigned, increase hit chance by 25%
+  if (pilots == 2 && assignedPilots.size() == 1) {
+      chance *= 1.25; 
+  }
+  return chance;
+}
 
-  return totalPower;
+double Ship::getTorpedoHitChance() const {
+  double chance = (double)torpedoHitChance;
+  // Penalty: If 2 pilots required but only 1 assigned, increase hit chance by 25%
+  if (pilots == 2 && assignedPilots.size() == 1) {
+      chance *= 1.25; 
+  }
+  return chance;
 }
 
 void Ship::takeDamage(int damage) {
