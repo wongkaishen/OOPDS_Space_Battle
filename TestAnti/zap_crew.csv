@@ -1,0 +1,7 @@
+P1,ZapPilot1,Pilot
+P2,ZapPilot2,Pilot
+P3,ZapPilot3,Pilot
+G1,ZapGunner1,Gunner
+G2,ZapGunner2,Gunner
+G3,ZapGunner3,Gunner
+T1,ZapTorp1,TorpedoHandler
