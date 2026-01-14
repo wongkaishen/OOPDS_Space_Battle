@@ -1,3 +1,8 @@
+// Group Germany TT3L
+// YAP HUI CHI
+// WONG KAI SHEN
+// SOH YI HERN
+
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
