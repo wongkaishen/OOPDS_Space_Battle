@@ -53,7 +53,8 @@ public:
 
   // Getters
   string getName() const { return name; }
-  virtual string getType() const { return "Ship"; }
+  virtual string
+  getType() const = 0; // Pure Virtual Function (Abstract Base Class)
   Faction getFaction() const { return faction; }
   int getHP() const { return hp; }
   int getMaxHP() const { return maxHp; }
@@ -79,6 +80,7 @@ public:
   int getLightCannonDamage() const;
   int getTorpedoDamage() const;
   void takeDamage(int damage);
+  void takeDamage(int damage, string source); //- Function Overloading
   void assignPilot(string name) { assignedPilots.push_back(name); }
   void assignGunner(string name) { assignedGunners.push_back(name); }
   void assignTorpedoHandler(string name) {
@@ -95,6 +97,7 @@ public:
 
   // Operator Overloading
   friend ostream &operator<<(ostream &os, const Ship &ship);
+  bool operator<(const Ship &other) const; // Operator Overloading
 };
 
 Ship::Ship(string n, Faction f, int h, int p, int g, int th, int lc_pow,
@@ -159,12 +162,16 @@ double Ship::getTorpedoHitChance() const {
 int Ship::getEffectiveLightCannonCount() const {
   if (pilots > 0 && assignedPilots.empty())
     return 0;
+  if (gunners == 0)
+    return lightCannonCount;
   return min(lightCannonCount, (int)assignedGunners.size());
 }
 
 int Ship::getEffectiveTorpedoCount() const {
   if (pilots > 0 && assignedPilots.empty())
     return 0;
+  if (torpedoHandlers == 0)
+    return torpedoCount;
   return min(torpedoCount, (int)assignedTorpedoHandlers.size());
 }
 
@@ -172,6 +179,12 @@ void Ship::takeDamage(int damage) {
   hp -= damage;
   if (hp < 0)
     hp = 0;
+}
+
+// Overloaded takeDamage
+void Ship::takeDamage(int damage, string source) {
+  takeDamage(damage); // Reuse logic
+  // (Optional: Could print extra info, but kept simple for now)
 }
 
 void Ship::printInfo() const {
@@ -183,6 +196,11 @@ void Ship::printInfo() const {
 ostream &operator<<(ostream &os, const Ship &ship) {
   os << ship.name << " (" << ship.hp << "/" << ship.maxHp << ")";
   return os;
+}
+
+// Operator Overloading Implementation
+bool Ship::operator<(const Ship &other) const {
+  return this->hp < other.hp; // Sort by HP
 }
 
 // ==========================================
@@ -252,12 +270,11 @@ public:
   BattleEngine();
   ~BattleEngine();
 
-  void init();
   void loadShipsFromCSV(string filename);
   void loadCrewFromCSV(string filename, Faction faction);
   void printShipsReport() const;
   void runBattle();
-  void processTurn();
+  bool processTurn();
   void validateShips(); // Removes ships with 0 pilots
 };
 
@@ -500,7 +517,12 @@ void BattleEngine::printShipsReport() const {
   };
 
   auto printShipReport = [&](const vector<Ship *> &ships) {
-    for (Ship *ship : ships) {
+    // COPY and SORT to demonstrate Operator Overloading (<)
+    vector<Ship *> sortedShips = ships;
+    sort(sortedShips.begin(), sortedShips.end(),
+         [](Ship *a, Ship *b) { return *a < *b; }); // Sort by HP (ascending)
+
+    for (Ship *ship : sortedShips) {
       string typeStr = ship->getType();
 
       cout << ship->getName() << "              (" << typeStr << ")" << endl;
@@ -540,22 +562,6 @@ void BattleEngine::printShipsReport() const {
   printShipReport(rogoatuskanShips);
 }
 
-void BattleEngine::init() {
-  // Add sample ships to Zapezoid Ships
-  zapezoidShips.push_back(new Guerriero());
-  zapezoidShips.push_back(new Medio());
-  zapezoidShips.push_back(new Corazzata());
-
-  // Add sample ships to Rogoatuskan Ships
-  rogoatuskanShips.push_back(new Jager());
-  rogoatuskanShips.push_back(new Kreuzer());
-  rogoatuskanShips.push_back(new Fregatte());
-
-  cout << "Battle Initialized!" << endl;
-  cout << "Zapezoids: " << zapezoidShips.size() << " ships." << endl;
-  cout << "Rogoatuskans: " << rogoatuskanShips.size() << " ships." << endl;
-}
-
 bool BattleEngine::areShipsDefeated(const vector<Ship *> &ships) const {
   for (Ship *s : ships) {
     if (s->isAlive())
@@ -573,10 +579,37 @@ Ship *BattleEngine::getRandomTarget(const vector<Ship *> &ships) {
 
   if (livingShips.empty())
     return nullptr;
+
   return livingShips[rand() % livingShips.size()];
 }
 
-void BattleEngine::processTurn() {
+void BattleEngine::cleanupDeadShips() {
+  // Correct Pattern: Partition -> Delete -> Erase
+
+  // 1. ZAPEZOID
+  // Move ALIVE ships to the front. Returns iterator to the first DEAD ship.
+  auto itZap = stable_partition(zapezoidShips.begin(), zapezoidShips.end(),
+                                [](Ship *s) { return s->isAlive(); });
+
+  // Delete the Dead Ships (from iterator to end)
+  for (auto it = itZap; it != zapezoidShips.end(); ++it) {
+    delete *it;
+  }
+  // Remove pointers from vector
+  zapezoidShips.erase(itZap, zapezoidShips.end());
+
+  // 2. ROGOATUSKAN
+  auto itRog =
+      stable_partition(rogoatuskanShips.begin(), rogoatuskanShips.end(),
+                       [](Ship *s) { return s->isAlive(); });
+
+  for (auto it = itRog; it != rogoatuskanShips.end(); ++it) {
+    delete *it;
+  }
+  rogoatuskanShips.erase(itRog, rogoatuskanShips.end());
+}
+
+bool BattleEngine::processTurn() {
   turnCount++;
   cout << "\n--- Turn " << turnCount << " ---" << endl;
 
@@ -675,23 +708,37 @@ void BattleEngine::processTurn() {
   } else {
     cout << "\nResolving Damage..." << endl;
     for (auto const &[ship, damage] : pendingDamage) {
-      ship->takeDamage(damage);
+      ship->takeDamage(damage, "Combat"); // Use Overloaded Function
       if (!ship->isAlive()) {
         cout << ship->getName() << " has been destroyed!" << endl;
       }
     }
   }
+
+  cleanupDeadShips();
+  return !pendingDamage.empty();
 }
 
 void BattleEngine::runBattle() {
+  int turnsWithoutDamage = 0;
   while (!areShipsDefeated(zapezoidShips) &&
          !areShipsDefeated(rogoatuskanShips)) {
     if (turnCount >= 50) {
-      cout << "\n--- BATTLE STOPPED (Stalemate / Max Turns Reached) ---"
-           << endl;
+      cout << "\n--- BATTLE STOPPED (Max Turns Reached) ---" << endl;
       break;
     }
-    processTurn();
+
+    bool damageDealt = processTurn();
+    if (damageDealt) {
+      turnsWithoutDamage = 0;
+    } else {
+      turnsWithoutDamage++;
+      if (turnsWithoutDamage >= 10) {
+        cout << "\n--- BATTLE STOPPED (Stalemate: No damage for 10 turns) ---"
+             << endl;
+        break;
+      }
+    }
   }
 
   cout << "\n--- Battle Over ---" << endl;
